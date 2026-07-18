@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexGrow — AI Automation Agency</title>
+<meta name="description" content="NexGrow builds AI agents, chatbots, and workflow automation that save businesses hours every week.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0F172A;
+    --bg-elevated: #131F3A;
+    --bg-card: #16213E;
+    --orange: #FF7A00;
+    --orange-soft: #FFB067;
+    --purple: #8B5CF6;
+    --purple-soft: #C4B5FD;
+    --white: #F8FAFC;
+    --muted: #94A3B8;
+    --muted-dim: #64748B;
+    --border: rgba(148,163,184,0.14);
+    --glass: rgba(255,255,255,0.045);
+    --glass-strong: rgba(255,255,255,0.07);
+    --radius: 24px;
+    --radius-sm: 14px;
+    --font-display: 'Poppins', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --shadow-card: 0 20px 60px -20px rgba(0,0,0,0.55);
+    --max: 1200px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--font-body);
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  button{font-family:inherit;}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 32px;}
+  section{position:relative;padding:72px 0;}
+  @media (max-width:768px){ section{padding:48px 0;} .wrap{padding:0 20px;} }
+
+  h1,h2,h3,h4{font-family:var(--font-display);font-weight:700;letter-spacing:-0.02em;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-body); font-size:13px; font-weight:600;
+    letter-spacing:0.08em; text-transform:uppercase; color:var(--orange-soft);
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:''; width:6px; height:6px; border-radius:50%;
+    background: var(--orange); box-shadow:0 0 12px var(--orange);
+  }
+
+  .section-head{max-width:640px; margin:0 auto 40px; text-align:center;}
+  .section-head h2{font-size:clamp(28px,4vw,44px); margin-bottom:16px;}
+  .section-head p{color:var(--muted); font-size:17px;}
+
+  /* Ambient background */
+  .ambient{
+    position:fixed; inset:0; z-index:-2; background:var(--bg);
+  }
+  .ambient::before, .ambient::after{
+    content:''; position:absolute; border-radius:50%; filter:blur(120px); opacity:0.35;
+  }
+  .ambient::before{
+    width:600px;height:600px; background:var(--orange); top:-200px; left:-150px;
+  }
+  .ambient::after{
+    width:700px;height:700px; background:var(--purple); bottom:10%; right:-200px;
+  }
+
+  /* Nav */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    backdrop-filter: blur(16px);
+    background: rgba(15,23,42,0.65);
+    border-bottom:1px solid var(--border);
+  }
+  nav.wrap{display:flex; align-items:center; justify-content:space-between; padding:18px 32px;}
+  .logo{font-family:var(--font-display); font-weight:800; font-size:20px; display:flex; align-items:center; gap:10px;}
+  .logo-mark{
+    width:32px;height:32px;border-radius:9px;
+    background:linear-gradient(135deg, var(--orange), var(--purple));
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px; box-shadow:0 6px 20px -6px rgba(255,122,0,0.6);
+  }
+  .nav-links{display:flex; gap:36px; font-size:14.5px; font-weight:500; color:var(--muted);}
+  .nav-links a:hover{color:var(--white);}
+  .nav-cta{display:flex; align-items:center; gap:16px;}
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:13px 26px; border-radius:100px; font-weight:600; font-size:14.5px;
+    cursor:pointer; border:none; transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg, var(--orange), #FF9433);
+    color:#0F172A; box-shadow:0 10px 30px -8px rgba(255,122,0,0.55);
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 14px 36px -8px rgba(255,122,0,0.7);}
+  .btn-ghost{
+    background: var(--glass); color:var(--white); border:1px solid var(--border);
+  }
+  .btn-ghost:hover{background:var(--glass-strong); transform:translateY(-2px);}
+  .mobile-toggle{display:none; background:none; border:none; color:var(--white); font-size:24px;}
+
+  @media (max-width:900px){
+    .nav-links{display:none;}
+    .nav-cta .btn-ghost{display:none;}
+  }
+
+  /* Hero */
+  .hero{padding-top:140px; padding-bottom:60px;}
+  .hero-grid{display:grid; grid-template-columns:1.1fr 1fr; gap:60px; align-items:center;}
+  @media (max-width:960px){ .hero-grid{grid-template-columns:1fr;} .hero{padding-top:120px;} }
+
+  .hero h1{font-size:clamp(36px,5.2vw,62px); line-height:1.08; margin-bottom:22px;}
+  .hero h1 .accent{
+    background:linear-gradient(120deg, var(--orange), var(--purple));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p.sub{color:var(--muted); font-size:18px; max-width:520px; margin-bottom:36px;}
+  .hero-actions{display:flex; gap:16px; flex-wrap:wrap;}
+
+  /* Hero flow illustration */
+  .flow-card{
+    position:relative; border-radius:var(--radius); padding:28px;
+    background: linear-gradient(180deg, var(--glass-strong), var(--glass));
+    border:1px solid var(--border); box-shadow:var(--shadow-card);
+    backdrop-filter: blur(10px);
+  }
+  .flow-card svg{width:100%; height:auto;}
+  .node-pulse{ animation:pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.55;} }
+  .flow-dash{ stroke-dasharray:6 10; animation:dash 1.6s linear infinite; }
+  @keyframes dash{ to{ stroke-dashoffset:-32; } }
+
+  /* Logos */
+  .logo-strip{padding:40px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border);}
+  .logo-strip p{text-align:center; color:var(--muted-dim); font-size:13px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:32px;}
+  .logo-row{
+    display:grid; grid-template-columns:repeat(5,1fr); gap:24px; align-items:center;
+  }
+  @media (max-width:768px){ .logo-row{grid-template-columns:repeat(3,1fr);} }
+  .logo-chip{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    padding:16px 10px; border-radius:14px; background:var(--glass); border:1px solid var(--border);
+    color:var(--muted); font-weight:600; font-size:14px; text-align:center;
+    transition:all .25s ease; filter:grayscale(1); opacity:0.7;
+  }
+  .logo-chip:hover{ filter:grayscale(0); opacity:1; border-color:rgba(255,122,0,0.4); color:var(--white); transform:translateY(-3px);}
+
+  /* Cards grid generic */
+  .grid{display:grid; gap:24px;}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  .grid-4{grid-template-columns:repeat(4,1fr);}
+  @media (max-width:960px){ .grid-3{grid-template-columns:repeat(2,1fr);} .grid-4{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:600px){ .grid-3,.grid-4{grid-template-columns:1fr;} }
+
+  .card{
+    background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:32px; transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+  }
+  .card:hover{transform:translateY(-6px); border-color:rgba(255,122,0,0.35); box-shadow:var(--shadow-card);}
+  .card-icon{
+    width:48px;height:48px;border-radius:14px; display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg, rgba(255,122,0,0.18), rgba(139,92,246,0.18));
+    margin-bottom:20px; font-size:22px;
+  }
+  .card h3{font-size:19px; margin-bottom:10px;}
+  .card p{color:var(--muted); font-size:15px;}
+
+  /* Process */
+  .process-track{position:relative;}
+  .process-track .grid-4{position:relative;}
+  .process-track .grid-4::before{
+    content:''; position:absolute; top:44px; left:8%; right:8%; height:1px;
+    background:linear-gradient(90deg, transparent, var(--border) 15%, var(--border) 85%, transparent);
+    z-index:0;
+  }
+  @media (max-width:960px){ .process-track .grid-4::before{display:none;} }
+  .process-step{position:relative; z-index:1;}
+  .step-num{
+    font-family:var(--font-display); font-size:15px; font-weight:700; color:var(--orange);
+    width:44px;height:44px;border-radius:50%; display:flex;align-items:center;justify-content:center;
+    background:var(--bg-elevated); border:1px solid rgba(255,122,0,0.4); margin-bottom:20px;
+  }
+  .process-step h3{font-size:18px; margin-bottom:12px;}
+  .process-step ul li{color:var(--muted); font-size:14.5px; padding:4px 0; position:relative; padding-left:16px;}
+  .process-step ul li::before{content:'—'; position:absolute; left:0; color:var(--muted-dim);}
+
+  /* Features */
+  .feature-row{display:flex; align-items:flex-start; gap:14px; padding:18px 0; border-bottom:1px solid var(--border);}
+  .feature-row:last-child{border-bottom:none;}
+  .feature-check{
+    width:26px;height:26px;border-radius:8px;flex-shrink:0;
+    background:linear-gradient(135deg, var(--orange), var(--purple));
+    display:flex;align-items:center;justify-content:center; font-size:13px; color:#0F172A; font-weight:800;
+  }
+  .feature-row h4{font-size:16px; margin-bottom:2px;}
+  .feature-row p{color:var(--muted); font-size:14px;}
+  .features-wrap{display:grid; grid-template-columns:1fr 1fr; gap:0 60px;}
+  @media (max-width:768px){ .features-wrap{grid-template-columns:1fr;} }
+
+  /* Industries */
+  .industry-chip{
+    padding:22px 20px; border-radius:16px; background:var(--glass); border:1px solid var(--border);
+    text-align:center; font-weight:600; font-size:15px; transition:all .25s ease; cursor:default;
+  }
+  .industry-chip:hover{ background:linear-gradient(135deg, rgba(255,122,0,0.14), rgba(139,92,246,0.14)); border-color:rgba(255,122,0,0.35); transform:translateY(-3px);}
+  .industry-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+  @media (max-width:768px){ .industry-grid{grid-template-columns:repeat(2,1fr);} }
+
+  /* Stats */
+  .stats-band{
+    border-radius:var(--radius); background:linear-gradient(135deg, rgba(255,122,0,0.1), rgba(139,92,246,0.1));
+    border:1px solid var(--border); padding:56px 40px;
+  }
+  .stats-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:24px; text-align:center;}
+  @media (max-width:768px){ .stats-grid{grid-template-columns:repeat(2,1fr);} }
+  .stat-num{font-family:var(--font-display); font-size:clamp(30px,4vw,44px); font-weight:800;
+    background:linear-gradient(120deg, var(--orange-soft), var(--purple-soft));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .stat-label{color:var(--muted); font-size:13.5px; margin-top:6px;}
+
+  /* Testimonials */
+  .testimonial-card{
+    background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:32px;
+  }
+  .stars{color:var(--orange); letter-spacing:2px; margin-bottom:18px; font-size:15px;}
+  .testimonial-card p.quote{font-size:15.5px; color:var(--white); margin-bottom:24px;}
+  .t-person{display:flex; align-items:center; gap:12px;}
+  .t-avatar{
+    width:42px;height:42px;border-radius:50%;
+    background:linear-gradient(135deg, var(--orange), var(--purple)); flex-shrink:0;
+  }
+  .t-person strong{font-size:14.5px; display:block;}
+  .t-person span{font-size:13px; color:var(--muted);}
+
+  /* FAQ */
+  .faq-list{max-width:760px; margin:0 auto;}
+  .faq-item{
+    border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:12px; overflow:hidden;
+    background:var(--glass);
+  }
+  .faq-q{
+    width:100%; text-align:left; padding:20px 24px; background:none; border:none; color:var(--white);
+    font-size:15.5px; font-weight:600; display:flex; justify-content:space-between; align-items:center; cursor:pointer;
+  }
+  .faq-q .plus{transition:transform .3s ease; color:var(--orange); font-size:20px; font-weight:400;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+  .faq-a{
+    max-height:0; overflow:hidden; transition:max-height .35s ease, padding .35s ease;
+    padding:0 24px; color:var(--muted); font-size:14.5px;
+  }
+  .faq-item.open .faq-a{max-height:200px; padding:0 24px 22px;}
+
+  /* Final CTA */
+  .cta-band{
+    border-radius:var(--radius); padding:80px 40px; text-align:center;
+    background: radial-gradient(circle at 30% 20%, rgba(255,122,0,0.18), transparent 60%),
+                radial-gradient(circle at 70% 80%, rgba(139,92,246,0.18), transparent 60%),
+                var(--bg-elevated);
+    border:1px solid var(--border); position:relative; overflow:hidden;
+  }
+  .cta-band h2{font-size:clamp(28px,4.5vw,46px); margin-bottom:16px;}
+  .cta-band p{color:var(--muted); max-width:520px; margin:0 auto 36px; font-size:17px;}
+  .cta-actions{display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+
+  /* Contact */
+  .contact-grid{
+    display:grid; grid-template-columns:0.85fr 1.15fr; gap:32px; align-items:start;
+  }
+  @media (max-width:860px){ .contact-grid{grid-template-columns:1fr;} }
+
+  .contact-info{
+    background: radial-gradient(circle at 25% 15%, rgba(255,122,0,0.16), transparent 55%),
+                radial-gradient(circle at 80% 85%, rgba(139,92,246,0.16), transparent 55%),
+                var(--bg-card);
+    border:1px solid var(--border); border-radius:var(--radius); padding:36px 32px;
+    display:flex; flex-direction:column; gap:26px; height:100%;
+  }
+  .contact-info-item{display:flex; gap:16px; align-items:flex-start;}
+  .contact-info-item .card-icon{margin-bottom:0; flex-shrink:0;}
+  .contact-info-item h4{font-size:15px; margin-bottom:6px;}
+  .contact-info-item a, .contact-info-item p{color:var(--muted); font-size:14.5px;}
+  .contact-info-item a:hover{color:var(--orange-soft);}
+  .contact-info-divider{height:1px; background:var(--border);}
+  .contact-info .social-row{display:flex; gap:10px;}
+  .contact-info .social-row a{
+    width:38px; height:38px; border-radius:50%; background:var(--glass); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-size:13px; color:var(--muted);
+    transition:all .2s ease;
+  }
+  .contact-info .social-row a:hover{color:var(--white); border-color:rgba(255,122,0,0.4); background:var(--glass-strong);}
+
+  .contact-form{
+    background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:36px 32px; display:flex; flex-direction:column; gap:20px;
+  }
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  @media (max-width:560px){ .form-row{grid-template-columns:1fr;} }
+  .form-group{display:flex; flex-direction:column; gap:8px;}
+  .form-group label{font-size:13px; font-weight:600; color:var(--muted);}
+  .form-group input, .form-group select, .form-group textarea{
+    width:100%; padding:13px 16px; border-radius:var(--radius-sm); border:1px solid var(--border);
+    background:var(--bg-elevated); color:var(--white); font-size:14.5px; font-family:var(--font-body);
+    outline:none; transition:border-color .2s ease; resize:vertical;
+  }
+  .form-group select{ appearance:none; -webkit-appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%2394A3B8' stroke-width='1.6' fill='none'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 16px center;
+  }
+  .form-group input::placeholder, .form-group textarea::placeholder{color:var(--muted-dim);}
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus{border-color:var(--orange);}
+  .contact-form .btn{align-self:flex-start;}
+  .form-note{font-size:12.5px; color:var(--muted-dim);}
+  .honeypot-field{position:absolute; left:-9999px; opacity:0; height:0; width:0; overflow:hidden;}
+
+  .form-status{
+    display:none; align-items:center; gap:12px; padding:16px 18px; border-radius:var(--radius-sm);
+    font-size:14px; border:1px solid var(--border);
+  }
+  .form-status.show{display:flex;}
+  .form-status.success{background:rgba(34,197,94,0.1); border-color:rgba(34,197,94,0.35); color:#86EFAC;}
+  .form-status.error{background:rgba(239,68,68,0.1); border-color:rgba(239,68,68,0.35); color:#FCA5A5;}
+
+  /* Footer */
+  footer{border-top:1px solid var(--border); padding:64px 0 32px;}
+  .footer-top{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:48px;}
+  @media (max-width:768px){ .footer-top{grid-template-columns:1fr 1fr;} }
+  .footer-top h4{font-size:14px; margin-bottom:16px; color:var(--muted);}
+  .footer-top ul li{margin-bottom:10px;}
+  .footer-top ul li a{color:var(--muted); font-size:14.5px;}
+  .footer-top ul li a:hover{color:var(--white);}
+  .footer-brand p{color:var(--muted); font-size:14px; max-width:280px; margin-top:14px;}
+  .social-row{display:flex; gap:12px; margin-top:20px;}
+  .social-row a{
+    width:36px;height:36px;border-radius:50%; border:1px solid var(--border); display:flex;
+    align-items:center;justify-content:center; font-size:14px; color:var(--muted);
+  }
+  .social-row a:hover{color:var(--white); border-color:var(--orange);}
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center; padding-top:28px;
+    border-top:1px solid var(--border); color:var(--muted-dim); font-size:13px; flex-wrap:wrap; gap:12px;
+  }
+
+  /* reveal on scroll */
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  :focus-visible{outline:2px solid var(--orange); outline-offset:3px;}
+
+</style>
+</head>
+<body>
+
+<div class="ambient"></div>
+
+<header>
+  <nav class="wrap">
+    <div class="logo"><span class="logo-mark">⟡</span>NexGrow</div>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#industries">Industries</a>
+      <a href="#testimonials">Results</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#contact" class="btn btn-ghost">Contact Us</a>
+      <a href="#contact" class="btn btn-primary">Get In Touch</a>
+    </div>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">AI Automation Agency</div>
+      <h1>Transform your business with <span class="accent">AI automation</span></h1>
+      <p class="sub">Automate repetitive tasks, streamline operations, and scale faster using AI agents, GoHighLevel, Twilio, OpenAI, Make.com, Zapier, and custom workflows built around how your team actually works.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Get In Touch</a>
+        <a href="#services" class="btn btn-ghost">View Our Services</a>
+      </div>
+    </div>
+    <div class="flow-card reveal">
+      <svg viewBox="0 0 480 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- connecting lines -->
+        <path d="M70 70 L200 190" stroke="#8B5CF6" stroke-opacity="0.5" stroke-width="2" class="flow-dash"/>
+        <path d="M70 190 L200 190" stroke="#8B5CF6" stroke-opacity="0.5" stroke-width="2" class="flow-dash"/>
+        <path d="M70 310 L200 190" stroke="#8B5CF6" stroke-opacity="0.5" stroke-width="2" class="flow-dash"/>
+        <path d="M280 190 L410 90" stroke="#FF7A00" stroke-opacity="0.55" stroke-width="2" class="flow-dash"/>
+        <path d="M280 190 L410 190" stroke="#FF7A00" stroke-opacity="0.55" stroke-width="2" class="flow-dash"/>
+        <path d="M280 190 L410 290" stroke="#FF7A00" stroke-opacity="0.55" stroke-width="2" class="flow-dash"/>
+
+        <!-- input nodes -->
+        <g class="node-pulse">
+          <rect x="20" y="48" width="100" height="44" rx="12" fill="#16213E" stroke="#8B5CF6" stroke-opacity="0.4"/>
+          <text x="70" y="75" text-anchor="middle" fill="#F8FAFC" font-size="12" font-family="Inter">WhatsApp</text>
+        </g>
+        <g class="node-pulse" style="animation-delay:.3s">
+          <rect x="20" y="168" width="100" height="44" rx="12" fill="#16213E" stroke="#8B5CF6" stroke-opacity="0.4"/>
+          <text x="70" y="195" text-anchor="middle" fill="#F8FAFC" font-size="12" font-family="Inter">CRM Lead</text>
+        </g>
+        <g class="node-pulse" style="animation-delay:.6s">
+          <rect x="20" y="288" width="100" height="44" rx="12" fill="#16213E" stroke="#8B5CF6" stroke-opacity="0.4"/>
+          <text x="70" y="315" text-anchor="middle" fill="#F8FAFC" font-size="12" font-family="Inter">Voice Call</text>
+        </g>
+
+        <!-- central AI brain node -->
+        <g>
+          <circle cx="240" cy="190" r="52" fill="url(#brainGrad)"/>
+          <circle cx="240" cy="190" r="52" fill="none" stroke="#FF7A00" stroke-opacity="0.5" stroke-width="1.5" class="node-pulse"/>
+          <text x="240" y="184" text-anchor="middle" fill="#0F172A" font-size="13" font-weight="700" font-family="Poppins">AI</text>
+          <text x="240" y="200" text-anchor="middle" fill="#0F172A" font-size="10" font-weight="600" font-family="Inter">Agent Core</text>
+        </g>
+        <defs>
+          <linearGradient id="brainGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#FF7A00"/>
+            <stop offset="1" stop-color="#8B5CF6"/>
+          </linearGradient>
+        </defs>
+
+        <!-- output nodes -->
+        <g class="node-pulse" style="animation-delay:.2s">
+          <rect x="410" y="68" width="100" height="44" rx="12" fill="#16213E" stroke="#FF7A00" stroke-opacity="0.4" transform="translate(-140,0)"/>
+        </g>
+        <g class="node-pulse" style="animation-delay:.2s">
+          <rect x="330" y="68" width="120" height="44" rx="12" fill="#16213E" stroke="#FF7A00" stroke-opacity="0.4"/>
+          <text x="390" y="95" text-anchor="middle" fill="#F8FAFC" font-size="12" font-family="Inter">Booked Call</text>
+        </g>
+        <g class="node-pulse" style="animation-delay:.5s">
+          <rect x="330" y="168" width="120" height="44" rx="12" fill="#16213E" stroke="#FF7A00" stroke-opacity="0.4"/>
+          <text x="390" y="195" text-anchor="middle" fill="#F8FAFC" font-size="12" font-family="Inter">CRM Updated</text>
+        </g>
+        <g class="node-pulse" style="animation-delay:.8s">
+          <rect x="330" y="268" width="120" height="44" rx="12" fill="#16213E" stroke="#FF7A00" stroke-opacity="0.4"/>
+          <text x="390" y="295" text-anchor="middle" fill="#F8FAFC" font-size="12" font-family="Inter">Reply Sent</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<section class="logo-strip" style="padding-top:0; padding-bottom:60px;">
+  <div class="wrap">
+    <p>Built with the tools you already trust</p>
+    <div class="logo-row">
+      <div class="logo-chip">OpenAI</div>
+      <div class="logo-chip">GoHighLevel</div>
+      <div class="logo-chip">Twilio</div>
+      <div class="logo-chip">Zapier</div>
+      <div class="logo-chip">Make.com</div>
+      <div class="logo-chip">HubSpot</div>
+      <div class="logo-chip">Google Workspace</div>
+      <div class="logo-chip">WhatsApp</div>
+      <div class="logo-chip">Slack</div>
+      <div class="logo-chip">Stripe</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Services</div>
+      <h2>What we build</h2>
+      <p>Eight ways to take manual work off your team's plate — each one built around your actual process, not a generic template.</p>
+    </div>
+    <div class="grid grid-4">
+      <div class="card reveal"><div class="card-icon">💬</div><h3>AI Chatbots</h3><p>Custom AI assistants for websites and customer support that answer like a trained rep.</p></div>
+      <div class="card reveal"><div class="card-icon">📞</div><h3>AI Voice Agents</h3><p>Automated phone assistants that answer calls 24/7 and book appointments live.</p></div>
+      <div class="card reveal"><div class="card-icon">🗂️</div><h3>CRM Automation</h3><p>Automate lead management and customer journeys from first touch to close.</p></div>
+      <div class="card reveal"><div class="card-icon">✅</div><h3>WhatsApp Automation</h3><p>Instant replies, reminders, and lead nurturing where your customers already are.</p></div>
+      <div class="card reveal"><div class="card-icon">🚀</div><h3>Sales Funnels</h3><p>High-converting landing pages and automated pipelines that turn clicks into calls.</p></div>
+      <div class="card reveal"><div class="card-icon">🔗</div><h3>Workflow Automation</h3><p>Connect all your business apps into one seamless, self-running system.</p></div>
+      <div class="card reveal"><div class="card-icon">📅</div><h3>Appointment Booking</h3><p>Automated scheduling with reminders that cut no-shows and save your calendar.</p></div>
+      <div class="card reveal"><div class="card-icon">⚙️</div><h3>Custom AI Solutions</h3><p>Tailored automations engineered specifically for how your business runs.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="process-track">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Our Process</div>
+      <h2>Our 4-step process</h2>
+      <p>Every engagement moves through the same sequence, in this order, so nothing gets automated before it's understood.</p>
+    </div>
+    <div class="grid grid-4">
+      <div class="process-step reveal">
+        <div class="step-num">01</div>
+        <h3>Discovery</h3>
+        <ul><li>Understand your business</li><li>Find repetitive tasks</li><li>Define goals</li></ul>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">02</div>
+        <h3>Strategy</h3>
+        <ul><li>Design workflow</li><li>Select technologies</li><li>Project planning</li></ul>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">03</div>
+        <h3>Development</h3>
+        <ul><li>Build automation</li><li>Testing</li><li>Optimization</li></ul>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">04</div>
+        <h3>Launch</h3>
+        <ul><li>Deploy</li><li>Training</li><li>Ongoing support</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE -->
+<section id="why">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Why NexGrow</div>
+      <h2>Built to last, not just to launch</h2>
+      <p>Automation only pays off if it keeps running. Here's what that means in practice.</p>
+    </div>
+    <div class="features-wrap">
+      <div>
+        <div class="feature-row reveal"><div class="feature-check">✓</div><div><h4>Custom-built solutions</h4><p>Every workflow is designed around your process, never a copy-paste template.</p></div></div>
+        <div class="feature-row reveal"><div class="feature-check">✓</div><div><h4>Fast turnaround</h4><p>Most projects move from discovery to launch in weeks, not quarters.</p></div></div>
+        <div class="feature-row reveal"><div class="feature-check">✓</div><div><h4>Scalable systems</h4><p>Built to handle 10x the volume without a rebuild.</p></div></div>
+        <div class="feature-row reveal"><div class="feature-check">✓</div><div><h4>Secure integrations</h4><p>Credentials and customer data handled the way your compliance team expects.</p></div></div>
+      </div>
+      <div>
+        <div class="feature-row reveal"><div class="feature-check">✓</div><div><h4>Reliable support</h4><p>Someone answers when a workflow needs a fix, not a ticket queue.</p></div></div>
+        <div class="feature-row reveal"><div class="feature-check">✓</div><div><h4>Clean documentation</h4><p>Every automation ships with docs your team can actually read.</p></div></div>
+        <div class="feature-row reveal"><div class="feature-check">✓</div><div><h4>Business-focused strategy</h4><p>We start from the outcome you want, then pick the tools.</p></div></div>
+        <div class="feature-row reveal"><div class="feature-check">✓</div><div><h4>Future-proof automation</h4><p>Systems built to adapt as your stack and volume grow.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section id="industries">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Industries</div>
+      <h2>Industries we serve</h2>
+      <p>Different playbooks for different businesses — the automation always fits the industry, not the other way around.</p>
+    </div>
+    <div class="industry-grid">
+      <div class="industry-chip reveal">Healthcare</div>
+      <div class="industry-chip reveal">Real Estate</div>
+      <div class="industry-chip reveal">Marketing Agencies</div>
+      <div class="industry-chip reveal">Law Firms</div>
+      <div class="industry-chip reveal">Education</div>
+      <div class="industry-chip reveal">eCommerce</div>
+      <div class="industry-chip reveal">Restaurants</div>
+      <div class="industry-chip reveal">Finance</div>
+      <div class="industry-chip reveal">Local Businesses</div>
+      <div class="industry-chip reveal">Startups</div>
+      <div class="industry-chip reveal">SaaS</div>
+      <div class="industry-chip reveal">Construction</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="results">
+  <div class="wrap">
+    <div class="stats-band reveal">
+      <div class="stats-grid">
+        <div><div class="stat-num">98%</div><div class="stat-label">Client Satisfaction</div></div>
+        <div><div class="stat-num">500+</div><div class="stat-label">Workflows Automated</div></div>
+        <div><div class="stat-num">1000+</div><div class="stat-label">Hours Saved</div></div>
+        <div><div class="stat-num">24/7</div><div class="stat-label">AI Support</div></div>
+        <div><div class="stat-num">40%</div><div class="stat-label">Avg. Productivity Increase</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Testimonials</div>
+      <h2>What clients say</h2>
+      <p>Real results from teams who handed the repetitive work to NexGrow.</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="quote">Our response time to new leads went from hours to under a minute. The AI chatbot alone paid for the engagement in the first month.</p>
+        <div class="t-person"><div class="t-avatar"></div><div><strong>Amara Chen</strong><span>Operations Lead, Real Estate</span></div></div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="quote">NexGrow mapped our entire intake process and automated the parts we didn't even realize were slowing us down.</p>
+        <div class="t-person"><div class="t-avatar"></div><div><strong>Daniel Ruiz</strong><span>Founder, Law Firm</span></div></div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="stars">★★★★★</div>
+        <p class="quote">The voice agent handles our after-hours calls better than our old answering service ever did — and it never takes a day off.</p>
+        <div class="t-person"><div class="t-avatar"></div><div><strong>Priya Nair</strong><span>Clinic Manager, Healthcare</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">FAQ</div>
+      <h2>Frequently asked questions</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-q">How long does implementation take?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Most projects launch in 2–6 weeks depending on scope, starting with a discovery call to map your workflow.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Can you integrate with my CRM?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Yes — we integrate with GoHighLevel, HubSpot, and most major CRMs, or connect to a custom system via API.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Do you provide support?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Every project includes ongoing support after launch, with direct access to the team that built your system.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Which AI tools do you use?<span class="plus">+</span></button>
+        <div class="faq-a"><p>We build with OpenAI, Twilio, Make.com, Zapier, and other best-in-class platforms, chosen per project.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Can you automate WhatsApp?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Yes — from instant replies to appointment reminders and lead nurturing sequences.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Do you build custom workflows?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Custom is the default. We start from your process, not a template, and build around it.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section>
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <h2>Ready to automate your business?</h2>
+      <p>Let's build intelligent automation that saves time, increases revenue, and helps your business scale.</p>
+      <div class="cta-actions">
+        <a href="#contact" class="btn btn-primary">Get In Touch</a>
+        <a href="#contact" class="btn btn-ghost">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Get In Touch</div>
+      <h2>Let's start the conversation</h2>
+      <p>Tell us a bit about your business and what you'd like to automate — we'll reply within one business day.</p>
+    </div>
+
+    <div class="contact-grid reveal">
+      <div class="contact-info">
+        <div class="contact-info-item">
+          <div class="card-icon">✉️</div>
+          <div>
+            <h4>Email us</h4>
+            <a href="mailto:nexgrowglobal@gmail.com">nexgrowglobal@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-info-divider"></div>
+        <div class="contact-info-item">
+          <div class="card-icon">⏱️</div>
+          <div>
+            <h4>Response time</h4>
+            <p>Within one business day, usually much sooner.</p>
+          </div>
+        </div>
+        <div class="contact-info-divider"></div>
+        <div class="contact-info-item">
+          <div class="card-icon">📍</div>
+          <div>
+            <h4>Where we work</h4>
+            <p>Remote-first, serving clients worldwide.</p>
+          </div>
+        </div>
+        <div class="contact-info-divider"></div>
+        <div>
+          <h4 style="margin-bottom:12px;">Follow us</h4>
+          <div class="social-row">
+            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" aria-label="Instagram">ig</a>
+            <a href="#" aria-label="Facebook">fb</a>
+            <a href="#" aria-label="X">x</a>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form" id="contactForm" action="https://formsubmit.co/nexgrowglobal@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="New inquiry from NexGrow website">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" class="honeypot-field" tabindex="-1" autocomplete="off">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cf-name">Name</label>
+            <input type="text" id="cf-name" name="name" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label for="cf-email">Email</label>
+            <input type="email" id="cf-email" name="email" placeholder="you@company.com" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="cf-service">What are you interested in?</label>
+          <select id="cf-service" name="service">
+            <option>AI Chatbots</option>
+            <option>Voice Agents</option>
+            <option>WhatsApp Automation</option>
+            <option>CRM / Workflow Automation</option>
+            <option>Something else</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="cf-message">Message</label>
+          <textarea id="cf-message" name="message" rows="5" placeholder="Tell us about your business and what you'd like to automate..." required></textarea>
+        </div>
+
+        <div class="form-status" id="formStatus"></div>
+
+        <button type="submit" class="btn btn-primary" id="formSubmitBtn">Send Message</button>
+        <p class="form-note">Or email us directly at <a href="mailto:nexgrowglobal@gmail.com" style="color:var(--orange-soft);">nexgrowglobal@gmail.com</a></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo"><span class="logo-mark">⟡</span>NexGrow</div>
+        <p>We design and build AI automation systems that save businesses hours every week.</p>
+        <div class="social-row">
+          <a href="#" aria-label="LinkedIn">in</a>
+          <a href="#" aria-label="Instagram">ig</a>
+          <a href="#" aria-label="Facebook">fb</a>
+          <a href="#" aria-label="X">x</a>
+        </div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul><li><a href="#">About</a></li><li><a href="#services">Services</a></li><li><a href="#">Portfolio</a></li><li><a href="#contact">Contact</a></li></ul>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <ul><li><a href="#faq">FAQ</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms</a></li></ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul><li><a href="mailto:nexgrowglobal@gmail.com">nexgrowglobal@gmail.com</a></li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 NexGrow. All rights reserved.</span>
+      <span>Designed for businesses that automate on purpose.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile-safe nav CTA fallback already handled via CSS.
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(function(item){
+    var q = item.querySelector('.faq-q');
+    q.addEventListener('click', function(){
+      var wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function(i){ i.classList.remove('open'); });
+      if(!wasOpen){ item.classList.add('open'); }
+    });
+  });
+
+  // Scroll reveal
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold: 0.12});
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // Contact form — submits to nexgrowglobal@gmail.com via FormSubmit, no backend required
+  (function(){
+    var form = document.getElementById('contactForm');
+    if(!form) return;
+    var status = document.getElementById('formStatus');
+    var submitBtn = document.getElementById('formSubmitBtn');
+
+    function showStatus(kind, message){
+      status.textContent = message;
+      status.className = 'form-status show ' + kind;
+    }
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+
+      // Honeypot: if a bot filled this hidden field, silently drop the submission
+      if(form.querySelector('[name="_honey"]').value){ return; }
+
+      var originalLabel = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      status.className = 'form-status';
+
+      var data = new FormData(form);
+
+      fetch(form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(function(res){
+        if(!res.ok) throw new Error('Form submission failed');
+        return res.json();
+      })
+      .then(function(){
+        showStatus('success', "Thanks — your message is in! We'll get back to you within one business day.");
+        form.reset();
+      })
+      .catch(function(err){
+        console.error('Contact form error:', err);
+        showStatus('error', "Something went wrong sending that. Please email us directly at nexgrowglobal@gmail.com.");
+      })
+      .finally(function(){
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
