@@ -727,6 +727,7 @@
         <input type="hidden" name="_subject" value="New inquiry from NexGrow website">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" id="cf-next" value="">
         <input type="text" name="_honey" class="honeypot-field" tabindex="-1" autocomplete="off">
 
         <div class="form-row">
@@ -824,53 +825,27 @@
     revealEls.forEach(function(el){ el.classList.add('in'); });
   }
 
-  // Contact form — submits to nexgrowglobal@gmail.com via FormSubmit, no backend required
+  // Contact form — real native submission to FormSubmit (most reliable method),
+  // which redirects the visitor back here with ?submitted=true
   (function(){
     var form = document.getElementById('contactForm');
     if(!form) return;
     var status = document.getElementById('formStatus');
-    var submitBtn = document.getElementById('formSubmitBtn');
+    var nextField = document.getElementById('cf-next');
 
-    function showStatus(kind, message){
-      status.textContent = message;
-      status.className = 'form-status show ' + kind;
+    // Point FormSubmit's redirect back at this exact page + a marker so we can
+    // show an inline success message after it sends the visitor back.
+    var baseUrl = window.location.origin + window.location.pathname;
+    nextField.value = baseUrl + '?submitted=true#contact';
+
+    // If we just got redirected back from FormSubmit, show the success state
+    // and clean the URL so refreshing doesn't re-show it.
+    if(window.location.search.indexOf('submitted=true') !== -1){
+      status.textContent = "Thanks — your message is in! We'll get back to you within one business day.";
+      status.className = 'form-status show success';
+      var cleanUrl = window.location.pathname + window.location.hash;
+      window.history.replaceState({}, document.title, cleanUrl);
     }
-
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-
-      // Honeypot: if a bot filled this hidden field, silently drop the submission
-      if(form.querySelector('[name="_honey"]').value){ return; }
-
-      var originalLabel = submitBtn.textContent;
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending...';
-      status.className = 'form-status';
-
-      var data = new FormData(form);
-
-      fetch(form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), {
-        method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
-      })
-      .then(function(res){
-        if(!res.ok) throw new Error('Form submission failed');
-        return res.json();
-      })
-      .then(function(){
-        showStatus('success', "Thanks — your message is in! We'll get back to you within one business day.");
-        form.reset();
-      })
-      .catch(function(err){
-        console.error('Contact form error:', err);
-        showStatus('error', "Something went wrong sending that. Please email us directly at nexgrowglobal@gmail.com.");
-      })
-      .finally(function(){
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalLabel;
-      });
-    });
   })();
 </script>
 
