@@ -366,7 +366,26 @@
   }
 
   :focus-visible{outline:2px solid var(--orange); outline-offset:3px;}
-
+/* WhatsApp floating button */
+.wa-float{
+  position:fixed; bottom:24px; right:24px; z-index:200;
+  width:60px; height:60px; border-radius:50%;
+  background:linear-gradient(135deg, #25D366, #1EBE5D);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 10px 30px -6px rgba(37,211,102,0.55);
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.wa-float:hover{ transform:translateY(-4px) scale(1.06); box-shadow:0 14px 36px -6px rgba(37,211,102,0.7); }
+.wa-float svg{ width:30px; height:30px; }
+.wa-float::before{
+  content:''; position:absolute; inset:0; border-radius:50%;
+  border:2px solid rgba(37,211,102,0.5); animation:wa-pulse 2.2s ease-out infinite;
+}
+@keyframes wa-pulse{
+  0%{ transform:scale(1); opacity:0.7; }
+  100%{ transform:scale(1.6); opacity:0; }
+}
+@media (max-width:600px){ .wa-float{ bottom:18px; right:18px; width:54px; height:54px; } }
 </style>
 </head>
 <body>
@@ -798,7 +817,12 @@
     </div>
   </div>
 </footer>
-
+<a href="https://wa.me/923412269691?text=Hi%20NexGrow!%20I'd%20like%20to%20know%20more%20about%20your%20AI%20automation%20services."
+   class="wa-float" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 32 32" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.386.7 4.605 1.909 6.472L4 29l7.727-1.868A11.94 11.94 0 0 0 16.001 27C22.628 27 28 21.627 28 15S22.628 3 16.001 3zm0 21.818a9.78 9.78 0 0 1-4.99-1.363l-.358-.213-4.583 1.108 1.127-4.47-.234-.373A9.78 9.78 0 0 1 6.182 15c0-5.42 4.4-9.818 9.819-9.818S25.818 9.58 25.818 15 21.42 24.818 16.001 24.818zm5.373-7.352c-.294-.147-1.74-.859-2.01-.957-.27-.098-.467-.147-.663.147-.196.294-.76.957-.932 1.153-.171.196-.343.221-.637.074-.294-.147-1.242-.458-2.366-1.462-.874-.78-1.464-1.744-1.636-2.038-.171-.294-.018-.453.129-.6.132-.132.294-.343.441-.514.147-.171.196-.294.294-.49.098-.196.049-.368-.025-.514-.074-.147-.663-1.6-.909-2.192-.24-.575-.483-.497-.663-.506-.171-.008-.368-.01-.564-.01-.196 0-.514.074-.784.368-.27.294-1.03 1.006-1.03 2.454 0 1.447 1.055 2.845 1.202 3.04.147.196 2.077 3.172 5.032 4.448.703.303 1.251.484 1.679.62.705.224 1.347.192 1.854.117.566-.085 1.74-.712 1.985-1.4.245-.687.245-1.276.171-1.4-.074-.123-.27-.196-.564-.343z"/>
+  </svg>
+</a>
 <script>
   // Mobile-safe nav CTA fallback already handled via CSS.
 
