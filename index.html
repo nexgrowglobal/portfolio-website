@@ -181,6 +181,27 @@
   .card h3{font-size:19px; margin-bottom:10px;}
   .card p{color:var(--muted); font-size:15px;}
 
+  /* Portfolio */
+  .portfolio-card{padding:0; overflow:hidden;}
+  .portfolio-thumb{
+    width:100%; aspect-ratio:16/9; overflow:hidden;
+    border-bottom:1px solid var(--border); background:var(--bg-elevated);
+  }
+  .portfolio-thumb img{width:100%; height:100%; object-fit:cover; transition:transform .4s ease;}
+  .portfolio-card:hover .portfolio-thumb img{transform:scale(1.04);}
+  .portfolio-body{padding:28px;}
+  .portfolio-body h3{font-size:19px; margin-bottom:10px;}
+  .portfolio-body p{color:var(--muted); font-size:14.5px; margin-bottom:16px;}
+  .portfolio-outcome{
+    display:flex; align-items:center; gap:8px;
+    font-size:13.5px; font-weight:600; color:var(--orange-soft);
+  }
+  .portfolio-outcome::before{content:'→'; color:var(--orange);}
+  .portfolio-thumb-placeholder{
+    width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+    font-size:32px; background:linear-gradient(135deg, rgba(255,122,0,0.12), rgba(139,92,246,0.12));
+  }
+
   /* Process */
   .process-track{position:relative;}
   .process-track .grid-4{position:relative;}
@@ -397,6 +418,7 @@
     <div class="logo"><span class="logo-mark">⟡</span>NexGrow</div>
     <div class="nav-links">
       <a href="#services">Services</a>
+      <a href="#portfolio">Portfolio</a>
       <a href="#process">Process</a>
       <a href="#industries">Industries</a>
       <a href="#testimonials">Results</a>
@@ -516,6 +538,43 @@
       <div class="card reveal"><div class="card-icon">🔗</div><h3>Workflow Automation</h3><p>Connect all your business apps into one seamless, self-running system.</p></div>
       <div class="card reveal"><div class="card-icon">📅</div><h3>Appointment Booking</h3><p>Automated scheduling with reminders that cut no-shows and save your calendar.</p></div>
       <div class="card reveal"><div class="card-icon">⚙️</div><h3>Custom AI Solutions</h3><p>Tailored automations engineered specifically for how your business runs.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Portfolio</div>
+      <h2>Workflows in the wild</h2>
+      <p>A few of the automations we've built — each one solving a specific bottleneck, not a generic template.</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card portfolio-card reveal">
+        <div class="portfolio-thumb"><img src="images/workflow-telegram-agent.jpg" alt="Telegram AI assistant workflow in n8n" loading="lazy"></div>
+        <div class="portfolio-body">
+          <h3>AI Telegram Assistant</h3>
+          <p>Reads incoming messages, remembers the conversation, and takes the right action on its own — replying, sending an email, or logging it — without anyone monitoring the chat.</p>
+          <div class="portfolio-outcome">Turns message triage into a background task</div>
+        </div>
+      </div>
+      <div class="card portfolio-card reveal">
+        <div class="portfolio-thumb"><img src="images/workflow-lead-outreach.jpg" alt="AI lead research and outreach workflow in n8n" loading="lazy"></div>
+        <div class="portfolio-body">
+          <h3>AI Lead Research & Outreach</h3>
+          <p>Researches each lead's website, finds their specific pain points, and sends a personalized email automatically — then marks them off so no one gets contacted twice.</p>
+          <div class="portfolio-outcome">Personalized outreach at the speed of a template</div>
+        </div>
+      </div>
+      <div class="card portfolio-card reveal">
+        <div class="portfolio-thumb"><div class="portfolio-thumb-placeholder">🤖</div></div>
+        <div class="portfolio-body">
+          <h3>AI Sales Assistant</h3>
+          <p>Chats with customers directly, answers product and pricing questions in multiple languages, and collects their details once they're ready to buy — saving every order to Google Sheets and alerting you instantly the moment a sale is confirmed.</p>
+          <div class="portfolio-outcome">Never lose a buyer to slow response time</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -800,7 +859,7 @@
       </div>
       <div>
         <h4>Company</h4>
-        <ul><li><a href="#">About</a></li><li><a href="#services">Services</a></li><li><a href="#">Portfolio</a></li><li><a href="#contact">Contact</a></li></ul>
+        <ul><li><a href="#">About</a></li><li><a href="#services">Services</a></li><li><a href="#portfolio">Portfolio</a></li><li><a href="#contact">Contact</a></li></ul>
       </div>
       <div>
         <h4>Resources</h4>
